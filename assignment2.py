@@ -2,7 +2,6 @@ import argparse
 import urllib.request
 import logging
 import ssl
-import pprint
 import csv, re
 from datetime import datetime
 
@@ -12,7 +11,6 @@ LOG_FILENAME = 'error.log'
 logging.basicConfig(
     filename = LOG_FILENAME,
     level = logging.ERROR,
-    format = 'Error processing line %(lineno)d %(message)s'
 )
 
 def download_data(url):
@@ -45,7 +43,7 @@ def process_data(file_content):
                 birthdate = process_birthdate(row['birthday'])
                 birthday_dict[row['id']] = (row['name'], birthdate)
             except ValueError:
-                logging.error("for ID " + row['id'])
+                logging.error(f"Error processing line {int(row['id']) - 1} ID {row['id']}")
     
     return birthday_dict
 
@@ -53,16 +51,18 @@ def process_data(file_content):
 # download_data('https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv')
 # print(process_data('csv_data.csv'))
 
-def displayPerson(id, personData):
+def displayPerson(id, person_data): #id = str, person_data = {}
     pass
 
 def main(url):
     print(f"Running main with URL = {url}...")
+    download_data(url)
+    process_data('csv_data.csv')
 
 
-if __name__ == "__main__":
-    """Main entry point"""
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--url", help="URL to the datafile", type=str, required=True)
-    args = parser.parse_args()
-    main(args.url)
+# if __name__ == "__main__":
+#     """Main entry point"""
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument("--url", help="URL to the datafile", type=str, required=True)
+#     args = parser.parse_args()
+#     main(args.url)

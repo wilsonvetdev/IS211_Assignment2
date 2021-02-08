@@ -3,7 +3,10 @@ import urllib.request
 import logging
 import ssl
 import csv, re
+import sys
 from datetime import datetime
+
+# url = 'https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv'
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -27,6 +30,7 @@ def download_data(url):
 
 # https://stackoverflow.com/questions/51089194/python-convert-bytes-unicode-tab-delimited-data-to-csv-file
 
+
 def process_birthdate(birthdate):
     formatted_birthdate = datetime.strptime(birthdate, '%d/%m/%Y')
     return formatted_birthdate
@@ -48,21 +52,37 @@ def process_data(file_content):
     return birthday_dict
 
 
-# download_data('https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv')
-# print(process_data('csv_data.csv'))
+def displayPerson(id):
+    birthday_dict = process_data('csv_data.csv')
+    return birthday_dict[id]
 
-def displayPerson(id, person_data): #id = str, person_data = {}
-    pass
 
 def main(url):
+    print("                                  ")
     print(f"Running main with URL = {url}...")
-    download_data(url)
-    process_data('csv_data.csv')
+    print("                                  ")
+    user_input = 0
+    user_input = int(input('Enter an ID from 1 - 100 --> '))
+
+    if user_input <= 0:
+        print('***** Exiting Program  *****')
+        sys.exit()
+
+    while user_input >= 0:
+        try:
+            print("                                  ")
+            print("Person found -------> ", displayPerson(str(user_input)))
+            main(url)
+        except KeyError:
+            print("                                  ")
+            print('***** No user found with that ID. *****')
+            main(url)
 
 
-# if __name__ == "__main__":
-#     """Main entry point"""
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("--url", help="URL to the datafile", type=str, required=True)
-#     args = parser.parse_args()
-#     main(args.url)
+if __name__ == "__main__":
+    """Main entry point"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--url", help="URL to the datafile", type=str, required=True)
+    args = parser.parse_args()
+    download_data(args.url)
+    main(args.url)

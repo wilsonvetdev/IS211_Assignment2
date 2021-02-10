@@ -58,7 +58,7 @@ def process_data(file_content):
     return birthday_dict
 
 
-def displayPerson(id):
+def display_person(id):
     birthday_dict = process_data('csv_data.csv')
     return f"Person #{id} is {birthday_dict[id][0]} with a birthday of {birthday_dict[id][1]}."
 

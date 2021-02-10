@@ -16,6 +16,12 @@ logging.basicConfig(
     level = logging.ERROR,
 )
 
+def prRed(skk): print("\033[91m{}\033[00m" .format(skk)) 
+def prGreen(skk): print("\033[92m{}\033[00m" .format(skk)) 
+def prYellow(skk): print("\033[93m{}\033[00m" .format(skk)) 
+
+# https://www.geeksforgeeks.org/print-colors-python-terminal/
+
 def download_data(url):
     req = urllib.request.Request(url)
     with urllib.request.urlopen(req) as response:
@@ -62,26 +68,26 @@ def main(url):
     print(f"Running main with URL = {url}...")
     print("                                  ")
     user_input = 0
-    user_input = input('Enter an ID from 1 - 100 --> ')
+    prYellow('Enter an ID from 1 - 100: ')
+    user_input = input()
 
     while user_input: 
         try:
             if int(user_input) <= 0:
                 print("                                  ")
-                print('***** Exiting Program  *****')
+                prRed('***** Exiting Program  *****')
                 sys.exit()
             print("                                  ")
-            print("Person found -------> ", displayPerson(str(user_input)))
+            prGreen(displayPerson(str(user_input)))
             main(url)
 
         except KeyError:
-            print("                                  ")
-            print('***** No user found with that ID. *****')
+            prRed('***** No user found with that ID. *****')
             main(url)
 
         except ValueError:
             print("                                  ")
-            print('***** Only integers allowed. *****')
+            prRed('***** Only integers allowed. *****')
             main(url)
 
 if __name__ == "__main__":

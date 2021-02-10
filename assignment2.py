@@ -32,7 +32,7 @@ def download_data(url):
 
 
 def process_birthdate(birthdate):
-    formatted_birthdate = datetime.strptime(birthdate, '%d/%m/%Y')
+    formatted_birthdate = datetime.strptime(birthdate, '%d/%m/%Y').date()
     return formatted_birthdate
 
 
@@ -54,7 +54,7 @@ def process_data(file_content):
 
 def displayPerson(id):
     birthday_dict = process_data('csv_data.csv')
-    return birthday_dict[id]
+    return f"Person #{id} is {birthday_dict[id][0]} with a birthday of {birthday_dict[id][1]}."
 
 
 def main(url):
@@ -62,22 +62,27 @@ def main(url):
     print(f"Running main with URL = {url}...")
     print("                                  ")
     user_input = 0
-    user_input = int(input('Enter an ID from 1 - 100 --> '))
+    user_input = input('Enter an ID from 1 - 100 --> ')
 
-    if user_input <= 0:
-        print('***** Exiting Program  *****')
-        sys.exit()
-
-    while user_input >= 0:
+    while user_input: 
         try:
+            if int(user_input) <= 0:
+                print("                                  ")
+                print('***** Exiting Program  *****')
+                sys.exit()
             print("                                  ")
             print("Person found -------> ", displayPerson(str(user_input)))
             main(url)
+
         except KeyError:
             print("                                  ")
             print('***** No user found with that ID. *****')
             main(url)
 
+        except ValueError:
+            print("                                  ")
+            print('***** Only integers allowed. *****')
+            main(url)
 
 if __name__ == "__main__":
     """Main entry point"""

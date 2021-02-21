@@ -78,7 +78,7 @@ def main(url):
                 prRed('***** Exiting Program  *****')
                 sys.exit()
             print("                                  ")
-            prGreen(displayPerson(str(user_input)))
+            prGreen(display_person(str(user_input)))
             main(url)
 
         except KeyError:

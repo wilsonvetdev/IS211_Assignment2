@@ -1,9 +1,12 @@
-# Spring 2021 IS 211 Course Assignment One
+# Spring 2021 IS 211 Course Assignment Two
 
 ### Setup - Python 3.9.1
 
 1. Git clone this repository onto local environment
-2. cd into the repo
+2. cd into the repo ** delete csv_data.csv and error.log for testing purpose. 
+  * Run below command to ensure Python 3 environment, and not the Python that comes installed with your local machine.
+  * $ python3 -m venv env
+  * $ source env/bin/activate
 3. run 'python assignmnet2.py --url 'https://s3.amazonaws.com/cuny-is211-spring2015/birthdays100.csv'
   * downloads the birthday data from the above URL
   * creates a file called csv_data.csv to store data line by line
